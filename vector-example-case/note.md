@@ -1,4 +1,5 @@
 __attribute__((__type_visibility__("default"))):
+
     set the visibility to be default, linkable from other library. Someone may
     set their class to be hidden. This attribute is compiler-specific, i.e. gcc.
 
@@ -23,6 +24,7 @@ forward v.s. move
         /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/__utility/forward.h
 
 allocator<Tp>:
+
     provide handy destructor for Tp* p.
     Imagine you are going to delete an array of n + 1 Tp object starts from Tp* p1
     then what you should do is to 
@@ -31,6 +33,7 @@ allocator<Tp>:
         2. allocator<Tp>::deallocate(p1, n + 1), i.e. delete p1
 
 __compressed_pair:
+
     __compressed_pair_elem<Tp>: 
         private inherit + empty base class Tp -> zero memory overhead
 
