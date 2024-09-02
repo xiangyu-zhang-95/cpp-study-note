@@ -16,6 +16,7 @@ universal reference, perfect forwarding
 ```
 
 forward v.s. move
+
     move turn everything into rvalue reference, forward keep its value catergory
     src here:
         /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/__utility/move.h
@@ -34,6 +35,7 @@ __compressed_pair:
         private inherit + empty base class Tp -> zero memory overhead
 
 vector:
+```
     pointer __begin_ = nullptr;
     pointer __end_ = nullptr;
     __compressed_pair<pointer, allocator_type> __end_cap_ =
@@ -43,15 +45,19 @@ vector:
     pointer& __end_cap();
     vector(_InputIterator __first, _InputIterator __last, ...)
         distinguish vector<int>(1, 3) and vector<int>(int*, int*)
+```
 
 Implementation details:
+
     __split_buffer for resizing the vector cap, pay attention to its destructor.
     _ConstructTransaction for construct a new elem at the end, pay attention to 
         its destructor.
 
 Question:
+
     1. assign(_ForwardIterator __first, _ForwardIterator __last) may be
         incorrect. You need to call destructor on eveything before making assignment.
+        ```
         vector& operator=(const vector& __x);
             vector<vector<int>> v;
             vector<int> v1 {1, 2, 3};
@@ -65,6 +71,7 @@ Question:
             # assign(_ForwardIterator __first, _ForwardIterator __last), 
             # which does not clear v[0], and leaks memory?
             v = w; 
-    
+        ```
+
     1 solution:
         copy assignment would deal with memory inside _VSTD::copy
