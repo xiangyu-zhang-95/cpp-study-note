@@ -3,6 +3,7 @@ __attribute__((__type_visibility__("default"))):
     set their class to be hidden. This attribute is compiler-specific, i.e. gcc.
 
 universal reference, perfect forwarding
+```
     template<typename T> void func(T&& param) {
         // Perfect forwarding.
         // when passed into another_func, param's l/r-value category is reserved
@@ -12,6 +13,7 @@ universal reference, perfect forwarding
     int x = 10;
     func(x);         // T is deduced as int&, so param is int& && = int&
     func(20);        // T is deduced as int, so param is int&&
+```
 
 forward v.s. move
     move turn everything into rvalue reference, forward keep its value catergory
