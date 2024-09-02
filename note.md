@@ -2,6 +2,23 @@ __attribute__((__type_visibility__("default"))):
     set the visibility to be default, linkable from other library. Someone may
     set their class to be hidden. This attribute is compiler-specific, i.e. gcc.
 
+universal reference, perfect forwarding
+    template<typename T> void func(T&& param) {
+        // Perfect forwarding.
+        // when passed into another_func, param's l/r-value category is reserved
+        another_func(std::forward<T>(param)); 
+    }
+
+    int x = 10;
+    func(x);         // T is deduced as int&, so param is int& && = int&
+    func(20);        // T is deduced as int, so param is int&&
+
+forward v.s. move
+    move turn everything into rvalue reference, forward keep its value catergory
+    src here:
+        /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/__utility/move.h
+        /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/__utility/forward.h
+
 allocator<Tp>:
     provide handy destructor for Tp* p.
     Imagine you are going to delete an array of n + 1 Tp object starts from Tp* p1
@@ -25,13 +42,10 @@ vector:
     vector(_InputIterator __first, _InputIterator __last, ...)
         distinguish vector<int>(1, 3) and vector<int>(int*, int*)
 
-
-TODO:
-    void reserve(size_type __n) -> __split_buffer
-    void shrink_to_fit() -> __split_buffer
-
-NEXT:
-    void push_back()
+Implementation details:
+    __split_buffer for resizing the vector cap, pay attention to its destructor.
+    _ConstructTransaction for construct a new elem at the end, pay attention to 
+        its destructor.
 
 Question:
     1. assign(_ForwardIterator __first, _ForwardIterator __last) may be
